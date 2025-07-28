@@ -1,0 +1,39 @@
+package org.example.Steps;
+
+import io.cucumber.java.en.Given;
+import org.example.BasePage;
+import org.example.PageObjects.CreateNewCustomerAccountPage;
+import org.openqa.selenium.WebDriver;
+
+import java.util.concurrent.ThreadLocalRandom;
+
+
+public class MyAccountSteps {
+    private static WebDriver driver;
+    private BasePage basePage;
+
+    public MyAccountSteps() {
+        if (driver == null) {
+            basePage = new BasePage();
+            driver = basePage.webDriver();
+        } else {
+            basePage = new BasePage(driver);
+        }
+    }
+
+
+    @Given(" the user should be successfully registered")
+    public void verifyPage() {
+        String emailAccount =ThreadLocalRandom.current().nextInt(10, 1000) +basePage.getProperties().getProperty("email");
+        CreateNewCustomerAccountPage createNewCustomerAccountPage = new CreateNewCustomerAccountPage(driver);
+        createNewCustomerAccountPage.iFrameHandle();
+        createNewCustomerAccountPage.firstNameInput(basePage.getProperties().getProperty("firstName"));
+        createNewCustomerAccountPage.lastNameInput(basePage.getProperties().getProperty("lastName"));
+        createNewCustomerAccountPage.emailInput(emailAccount);
+        createNewCustomerAccountPage.passwordInput(basePage.getProperties().getProperty("password"));
+        createNewCustomerAccountPage.passwordConfirmationInput(basePage.getProperties().getProperty("password"));
+    }
+
+
+
+}
